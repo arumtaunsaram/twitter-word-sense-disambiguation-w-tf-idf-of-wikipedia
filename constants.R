@@ -4,7 +4,10 @@ TWITTER_CONSUMER_SECRET = ""
 TWITTER_ACCESS_TOKEN = ""
 TWITTER_ACCESS_SECRET = ""
 
-# 区分したいカテゴリをWikipediaのページ名で指定してください
+# Twitter検索で指定するキーワードを指定してください。
+kTargetWord = "小笠原"
+
+# 区分したいカテゴリをWikipediaのページ名で指定してください。
 kTargetClasses = c("小笠原諸島",
                    "小笠原満男",
                    "小笠原流",

@@ -1,4 +1,9 @@
+# WikipediRパッケージをまだインストールしていない場合は、下1行の先頭の#を取り除き、
+# WikipediRパッケージをインストールしてください
 #install.packages("WikipediR")
+
+# xml2パッケージをまだインストールしていない場合は、下1行の先頭の#を取り除き、
+# xml2パッケージをインストールしてください
 #install.packages("xml2")
 
 library(WikipediR)
@@ -38,13 +43,20 @@ downloadWikipediaContent <- function(page_name, random=FALSE) {
 
 }
 
+#
+# 手続き開始
+#
+
 # キャッシュディレクトリから、以前のキャッシュを削除する
 lapply(list.files(WIKIPEDIA_CONTENT_DIR), function(x) {file.remove(file.path(WIKIPEDIA_CONTENT_DIR, x))})
 
+# 対象クラスのWikipedia記事をダウンロードする
 for(page in kTargetClasses) {
         downloadWikipediaContent(page)
 }
 
+# 対象クラスとは他の記事をランダムで取得し、各クラスに
+# たまたま重みがつけられた一般語彙の打ち消しを狙う
 for(i in 1:50) {
         downloadWikipediaContent(NULL, random=TRUE)
 }

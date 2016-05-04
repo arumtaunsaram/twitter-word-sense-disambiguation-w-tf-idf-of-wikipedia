@@ -12,26 +12,24 @@ library(RMeCab)
 source("constants.R")
 source("constants-private.R")
 
-target_word = "小笠原"
-
 setup_twitter_oauth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
 
-tweets = searchTwitter(target_word, n=500)
+tweets = searchTwitter(kTargetWord, n=500)
 # スコアの格納先(tweets with affinities)
 twa <- NULL
 
 # tf-idf データを読み込む
 tf_idf <- docMatrix(WIKIPEDIA_CONTENT_DIR, weight="tf*idf")
 # 区分対象とするクラスの列のみを残す
-# (各クラスの語彙列に全体を考慮したtf*idf値が
-# 残るので、それが残れば十分)
+# (各クラスの語彙行に集めた文書全体での
+# 語彙出現数で割ったtf*idf値が残るので、それが残れば十分)
 tf_idf <- tf_idf[,intersect(colnames(tf_idf),kTargetClasses)]
 # 対象語の出現情報を消す
 # (そうしないと、ある特定のクラスの記事で
 # 対象語が繰り返されている場合、すべての対象語で
 # その繰り返された対象語の結果が特定のクラスに
 # 重み付けされてしまう)
-tf_idf[Term=target_word,] <- (tf_idf[Term=target_word,] * 0)
+tf_idf[Term=kTargetWord,] <- (tf_idf[Term=kTargetWord,] * 0)
 
 # tweetをファイルに出力する
 # cf. http://rmecab.jp/wiki/index.php?RMeCabFunctions#content_1_15
