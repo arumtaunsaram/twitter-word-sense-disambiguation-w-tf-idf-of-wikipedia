@@ -50,16 +50,15 @@ for (tweet in tweets)
         print(tweet$text)
         # tf-idf表に存在した全てのツイート内の出現語彙について
         # どのクラスに所属するかのスコアを累計する。
-        affirnities <- apply(scores, 2, sum)
-        print(apply(scores, 2, sum))
-        tweets.w.affinities <- rbind(tweets.w.affinities,
-              cbind(t(affirnities), 
-                    tweet.id=tweet$id,
-                    tweet.created=tweet$created,
-                    tweet.user=tweet$screenName,
-                    tweet.text=tweet$text,
-                    tweet.longitude=tweet$longitude,
-                    tweet.latitude=tweet$latitude)
-        )
+        affinities <- apply(scores, 2, sum)
+
+        row1 <- data.frame(t(affinities), 
+                        tweet.id=tweet$id,
+                        tweet.created=tweet$created,
+                        tweet.user=tweet$screenName,
+                        tweet.text=tweet$text
+                        )
+        tweets.w.affinities <- rbind(tweets.w.affinities, row1)
 }
 
+twa <- data.frame(tweets.w.affinities)

@@ -21,13 +21,13 @@ downloadWikipediaContent <- function(page_name) {
         # 保存先パスを生成する
         file_path_and_name = file.path(WIKIPEDIA_CONTENT_DIR,
                                        # 保存先ファイル名
-                                       paste(page_name, ".txt", sep=""))
+                                       page_name)
         # ファイルに保存する
         write.table(texts, file=file_path_and_name, row.names=FALSE, quote=FALSE)
 
 }
 
-target_pages <- c("小笠原諸島", "小笠原満男")
+target_pages <- c("小笠原諸島", "小笠原満男", "小笠原流", "小笠原氏", "小笠原慎之介", "小笠原道大", "小笠原茉由")
 
 for(page in target_pages) {
         downloadWikipediaContent(page)
