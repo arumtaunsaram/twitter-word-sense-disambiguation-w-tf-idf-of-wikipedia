@@ -17,8 +17,8 @@ target_word = "小笠原"
 setup_twitter_oauth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
 
 tweets = searchTwitter(target_word)
-# スコアの格納先
-tweets.w.affinities <- NULL
+# スコアの格納先(tweets with affinities)
+twa <- NULL
 
 # tf-idf データを読み込む
 tf_idf = docMatrix(WIKIPEDIA_CONTENT_DIR, weight="tf*idf")
@@ -55,7 +55,6 @@ for (tweet in tweets)
         # それぞれのクラスについて、ほかと比べてどれだけ強い
         # のか割合を出す
         denominator <- sum(affinities)
-        print(sprintf("denominator: %f", denominator))
         if (denominator > 0)
         {
                 rates <- affinities / denominator
@@ -75,7 +74,5 @@ for (tweet in tweets)
                         tweet.user=tweet$screenName,
                         tweet.text=tweet$text
                         )
-        tweets.w.affinities <- rbind(tweets.w.affinities, row1)
+        twa <- rbind(twa, row1)
 }
-
-twa <- data.frame(tweets.w.affinities)
