@@ -27,7 +27,7 @@ downloadWikipediaContent <- function(page_name) {
 
 }
 
-target_pages <- c("小笠原諸島", "小笠原満男", "小笠原流", "小笠原氏", "小笠原慎之介", "小笠原道大", "小笠原茉由")
+target_pages <- c("小笠原諸島", "小笠原満男", "小笠原流", "小笠原氏", "小笠原慎之介", "小笠原道大", "小笠原茉由", "小笠原登")
 
 for(page in target_pages) {
         downloadWikipediaContent(page)

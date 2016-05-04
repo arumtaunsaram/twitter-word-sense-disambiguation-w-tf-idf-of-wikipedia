@@ -51,8 +51,25 @@ for (tweet in tweets)
         # tf-idf表に存在した全てのツイート内の出現語彙について
         # どのクラスに所属するかのスコアを累計する。
         affinities <- apply(scores, 2, sum)
+        
+        # それぞれのクラスについて、ほかと比べてどれだけ強い
+        # のか割合を出す
+        denominator <- sum(affinities)
+        print(sprintf("denominator: %f", denominator))
+        if (denominator > 0)
+        {
+                rates <- affinities / denominator
+                # 検算
+                # print("summation of all rates:")
+                # print(sum(rates))
+        } else {
+                rates <- rep(0, length(names(affinities)))
+        }
+        # 割合の列名はクラスの末尾に.pをつけたものとする。
+        names(rates) <- lapply(names(affinities), function(name){return(paste(name, "p", sep="."))})
 
-        row1 <- data.frame(t(affinities), 
+        row1 <- data.frame(t(affinities),
+                        t(rates),
                         tweet.id=tweet$id,
                         tweet.created=tweet$created,
                         tweet.user=tweet$screenName,
