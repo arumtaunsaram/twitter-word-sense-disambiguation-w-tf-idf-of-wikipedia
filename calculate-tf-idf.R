@@ -6,9 +6,20 @@ library(xml2)
 
 source("constants.R")
 
-downloadWikipediaContent <- function(page_name) {
+kWikipediaArticleNamespace = 0
 
-        wp_html <- page_content("ja", "wikipedia", page_name=page_name)
+downloadWikipediaContent <- function(page_name, random=FALSE) {
+
+        if (random)
+        {
+                wp_html <- random_page("ja", "wikipedia", 
+                                # 記事のみを対象とする(会話ノートやテンプレート
+                                # ページを含めない)
+                                namespaces = list(kWikipediaArticleNamespace))
+                page_name <- wp_html$parse$title
+        } else {
+                wp_html <- page_content("ja", "wikipedia", page_name=page_name)
+        }
         # page_content関数は独自のpccontentクラスを返すため、
         # その中のparse->text->"*"プロパティを明示しxml2ライブラリに文字列を渡す
         tree <- read_html(wp_html$parse$text$"*", encoding="UTF-8")
@@ -27,8 +38,13 @@ downloadWikipediaContent <- function(page_name) {
 
 }
 
-target_pages <- c("小笠原諸島", "小笠原満男", "小笠原流", "小笠原氏", "小笠原慎之介", "小笠原道大", "小笠原茉由", "小笠原登")
+# キャッシュディレクトリから、以前のキャッシュを削除する
+lapply(list.files(WIKIPEDIA_CONTENT_DIR), function(x) {file.remove(file.path(WIKIPEDIA_CONTENT_DIR, x))})
 
-for(page in target_pages) {
+for(page in kTargetClasses) {
         downloadWikipediaContent(page)
+}
+
+for(i in 1:50) {
+        downloadWikipediaContent(NULL, random=TRUE)
 }

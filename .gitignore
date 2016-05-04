@@ -3,3 +3,4 @@
 .RData
 .httr-oauth
 constants-private.R
+wikipedia-articles/*
